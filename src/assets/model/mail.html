@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="shortcut icon" href="../icons/iconTemplate.png" type="image/x-icon">
+  <link rel="stylesheet" href="../libs/bootstrap-5.0.2-dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../libs/bootstrap-icons-1.9.0/bootstrap-icons.css">
+</head>
+<body>
+  
+  <div class="container">
+    <h1 class="mt-4 text-center mb-2">Enviar de Teste</h1>
+
+    <div class="border rounded p-4">
+      <form action="" method="post">
+
+        <div class="form-group mb-4">
+          <label for="from" class="form-label">From:</label>
+          <input type="text" id="from" class="form-control" value="app@mailhog.com" placeholder="Type your e-mail">
+        </div>
+
+        <div class="form-group mb-4">
+          <label for="to" class="form-label">To:</label>
+          <input type="text" id="to" class="form-control" value="test@mailhog.local" readonly>
+        </div>
+
+        <div class="form-group mb-4">
+          <label for="subject" class="form-label">Subject:</label>
+          <input type="text" id="subject" class="form-control" value="Test Message" placeholder="Type subject from e-mail">
+        </div>
+
+        <div class="form-floating mb-4">
+          <textarea class="form-control" placeholder="Leave a body here" id="body-email" style="height: 110px"></textarea>
+          <label for="body-email">Comments</label>
+        </div>
+
+        <div class="d-flex justify-content-end">
+          <button type="submit" class="btn btn-primary">Send</button>
+        </div>
+
+      </form>
+    </div>
+
+  </div>
+  
+</body>
+</html>

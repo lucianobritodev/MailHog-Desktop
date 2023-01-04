@@ -1,0 +1,32 @@
+{
+  "name": "mailhog-desktop",
+  "version": "1.0.0",
+  "description": "Client desktop for MailHog",
+  "main": "src/app/main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "nodemon --watch src/app/main.js --exec electron .",
+    "test": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "github.com/lucianobritodev/MailHog-Desktop"
+  },
+  "keywords": [
+    "MailHog",
+    "MailHog-Desktop",
+    "SMTP",
+    "SMTP",
+    "Fake",
+    "Email"
+  ],
+  "author": "Luciano Brito",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^22.0.0",
+    "nodemon": "^2.0.20"
+  },
+  "dependencies": {
+    "path": "^0.12.7"
+  }
+}

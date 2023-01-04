@@ -1,0 +1,11 @@
+From: App <app@mailhog.com>
+To: Test <test@mailhog.com>
+Subject: Test Message
+
+And here goes the e-mail body,
+test test test..
+
+
+king Regards,
+App
+app@mailhog.com

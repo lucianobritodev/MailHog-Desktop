@@ -1,0 +1,55 @@
+SHASUMS256.txt
+compile_commands.json
+.DS_Store
+.env
+.envrc
+.gclient_done
+.tags*
+.vs/
+.vscode/
+/.idea/
+**/.npmrc
+*.log
+*.pyc
+*.sln
+*.swp
+*.VC.db
+*.VC.VC.opendb
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+*.xcodeproj
+
+# npm package
+node_modules
+package-lock.json
+npm/dist/*
+npm/path.txt
+npm/checksums.json
+.npmrc
+
+# Generated API definitions
+electron-api.json
+electron.d.ts
+dist/*
+
+# Spec hash calculation
+spec/.hash
+
+# Eslint Cache
+.eslintcache*
+
+# Generated native addon files
+spec-main/fixtures/native-addon/echo/build/
+
+# If someone runs tsc this is where stuff will end up
+ts-gen
+
+# Used to accelerate CI builds
+.depshash
+.depshash-target
+
+# Used to accelerate builds after sync
+patches/mtime-cache.json
+
+spec/fixtures/logo.png
