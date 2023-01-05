@@ -4,6 +4,31 @@
 
 Desktop application to manage fake SMTP Client for receiving Mailhog email as well as fake SMTP client for sending Sendmail email.
 
+**Attention!**
+This application was initially developed for unix like environments, if you want to run it in other environments make sure that all dependencies are satisfied.
+
+
+## Installation
+
+Open the `dist/installers` folder and download and install the mailhog-desktop*.deb.
+
+
+## Compiling the Project Locally
+
+1. To compile the application, first of all, clone the project or download the zipped source code to your local machine.
+2. Access the project folder and run the command to download the dependencies:
+```
+$ npm install
+```
+3. run the command to build the application.
+```
+$ npm run build
+```
+4. Access the `dist/installers/` in project and install the generated mailhog-desktop*.deb package.
+
+With that the application will be working. Right now you can add the versions of Tomcat server that are on your machine local.
+
+
 ## Contributors
 
 [Luciano Brito](https://github.com/lucianobritodev)
