@@ -1,11 +1,10 @@
-From: App <app@mailhog.com>
-To: Test <test@mailhog.com>
-Subject: Test Message
+From: App <app@mailhog.com> 
+To: Test <test@mailhog.local> 
+Subject: Test Message 
 
-And here goes the e-mail body,
-test test test..
+            Hi!
+            That is email test from MailHog.
 
-
-king Regards,
-App
-app@mailhog.com
+            Kind reguards,
+            MailHog
+          

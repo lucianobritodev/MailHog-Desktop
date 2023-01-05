@@ -4,18 +4,24 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>E-mail Test From MailHog</title>
   <link rel="shortcut icon" href="../icons/iconTemplate.png" type="image/x-icon">
   <link rel="stylesheet" href="../libs/bootstrap-5.0.2-dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="../libs/bootstrap-icons-1.9.0/bootstrap-icons.css">
 </head>
 <body>
   
-  <div class="container">
-    <h1 class="mt-4 text-center mb-2">Enviar de Teste</h1>
+  <div id="message"></div>
+
+  <div class="container mt-3 mb-3">
 
     <div class="border rounded p-4">
-      <form action="" method="post">
+      <form method="post" id="send-email-form">
+
+        <div class="form-group mb-4">
+          <label for="name" class="form-label">Name:</label>
+          <input type="text" id="name" class="form-control" value="App" placeholder="Type your name">
+        </div>
 
         <div class="form-group mb-4">
           <label for="from" class="form-label">From:</label>
@@ -33,18 +39,28 @@
         </div>
 
         <div class="form-floating mb-4">
-          <textarea class="form-control" placeholder="Leave a body here" id="body-email" style="height: 110px"></textarea>
-          <label for="body-email">Comments</label>
+          <textarea class="form-control" placeholder="Leave a body here" id="body-email" style="height: 110px">
+            Hi!
+            That is email test from MailHog.
+
+            Kind reguards,
+            MailHog
+          </textarea>
+          <label for="body-email">Content</label>
         </div>
 
-        <div class="d-flex justify-content-end">
+        <div class="d-flex flex-row-reverse mb-4">
           <button type="submit" class="btn btn-primary">Send</button>
+          <button type="button" id="cancel" class="btn btn-secondary me-2">Cancel</button>
         </div>
+
 
       </form>
     </div>
 
   </div>
   
+  <script src="../libs/bootstrap-5.0.2-dist/js/bootstrap.min.js"></script>
+  <script src="../../app/renderer.js"></script>
 </body>
 </html>
