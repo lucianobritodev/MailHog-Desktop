@@ -1,10 +1,13 @@
 "use strict";
 
-const fs = require('fs');
 const { app, Tray, Menu, BrowserWindow, ipcMain } = require('electron');
 const { spawn, spawnSync } = require('child_process')
 const { resolve, join } = require('path');
+const fs = require('fs');
 const nodeNotifier = require('node-notifier')
+const Sentry = require('@sentry/electron');
+
+Sentry.init({ dsn: "https://ac422df133214b17a9e6d3313a90f6ac@o1145500.ingest.sentry.io/4504454160777216" });
 
 const host = "127.0.0.1";
 const port = "8025";
