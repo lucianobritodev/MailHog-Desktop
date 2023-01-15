@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About</title>
+  <link rel="shortcut icon" href="../icons/iconTemplate.png" type="image/x-icon">
+  <link rel="stylesheet" href="../libs/bootstrap-5.0.2-dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../libs/bootstrap-icons-1.9.0/bootstrap-icons.css">
+  <style>
+    .text-justify {
+      text-align: justify;
+    }
+  </style>
+</head>
+<body>
+  
+  <div class="container mt-3 mb-2">
+
+    <div class="row col-sm-10 offset-1">
+
+      <div class="text-center p-2">
+        <h2>MailHog Desktop</h2>
+        <img class="img-thumbnail" src="../icons/iconTemplate.png" alt="">
+        <br>
+        <span>Versão: 1.1.0</span>
+      </div>
+  
+      <div class="justify-content-lg-between p-2">
+        <p class="text-justify">O <a class="link-info" style="cursor: pointer;" onclick="project()">MailHog-Desktop</a> é um frontend desenvolvido em Electron para o projeto <a class="link-info" style="cursor: pointer;" onclick="mailhog()">MailHog</a>.</p>
+        <p class="text-justify">Atualmente o projeto Mailhog possui duas aplicações, uma para gerenciar um cliente SMTP falso para receber e-mails chamada mailhog e outra para realizar envio de e-mails chamada mhsendmail.</p>
+        <p class="text-justify">Esta ferramenta foi desenvolvida com a tecnologia Electron e está registrada sob a licença MIT.</p>
+      </div>
+  
+      <div class="text-center p-2">
+        <p>Desenvolvido por: <a class="link-info" style="cursor: pointer;" onclick="author()">Luciano Brito</a></p>
+      </div>
+
+    </div>
+
+  </div>
+  
+  <script src="../libs/bootstrap-5.0.2-dist/js/bootstrap.min.js"></script>
+  <script src="../../app/renderer.js"></script>
+</body>
+</html>

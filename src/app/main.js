@@ -1,21 +1,20 @@
 "use strict";
 
-const { app, Tray, Menu, BrowserWindow, ipcMain } = require('electron');
+const { app, Tray, Menu, BrowserWindow, ipcMain, shell } = require('electron');
 const { spawn, spawnSync } = require('child_process')
-const { resolve, join } = require('path');
+const { resolve } = require('path');
 const fs = require('fs');
 const nodeNotifier = require('node-notifier')
-const Sentry = require('@sentry/electron');
 
-Sentry.init({ dsn: "https://ac422df133214b17a9e6d3313a90f6ac@o1145500.ingest.sentry.io/4504454160777216" });
-
-const host = "127.0.0.1";
-const port = "8025";
-const url = `http://${host}:${port}`;
+const home      = process.env.HOME;
+const host      = "127.0.0.1";
+const port      = "8025";
+const url       = `http://${host}:${port}`;
+const base_path = `${home}/.config/mailhog-desktop/mailhog`;
 
 let mainTray = {};
 let mainWindow = {};
-let lastPidMailhog = null;
+let lastPidMailhog = [];
 
 function render(tray = mainTray) {
   const contextMenu = Menu.buildFromTemplate([
@@ -42,27 +41,99 @@ function render(tray = mainTray) {
       type: 'separator'
     },
     {
+      label: "About",
+      click: () => about()
+    },
+    {
+      label: "Help",
+      click: () => help()
+    },
+    {
+      type: 'separator'
+    },
+    {
       label: 'Quit',
-      click: () => close()
+      click: () => quit()
     }
   ]);
 
+  tray.setIgnoreDoubleClickEvents(true)
+  tray.setToolTip('MailHog Desktop')
   tray.setContextMenu(contextMenu);
-  tray.on('click', () => tray.popUpContextMenu());
+
+  tray.on('click', event => {
+    contextMenu.popup({positioningItem: 0})
+  });
+
 }
+
+
+function about() {
+
+  mainWindow.setSize(820, 580, true);
+  mainWindow.center();
+  mainWindow.loadFile(resolve(__dirname, '..', 'assets', 'model', 'about.html'));
+  mainWindow.show();
+  mainWindow.setAlwaysOnTop(true);
+  mainWindow.focus();
+  mainWindow.setAlwaysOnTop(false);
+
+  console.log(app.getVersion()) 
+}
+
+
+function help() {
+  shell.openExternal('https://github.com/mailhog/MailHog');
+}
+
+
+function downloadMailhog() {
+
+  try {
+    if(fs.existsSync(base_path)) {
+
+      if (fs.existsSync(`${base_path}/mhsendmail`)
+        && fs.existsSync(`${base_path}/MailHog_linux_amd64`)) {
+          return;
+      }
+
+      spawnSync('rm', [ '-Rf', `${base_path}` ]);
+    }
+  
+    fs.mkdirSync(base_path, { recursive: true });
+  
+    spawn(`wget`, [ 
+      '-c',
+      'https://raw.githubusercontent.com/lucianobritodev/MailHog-Desktop/master/src/app/bin/mhsendmail',
+      '-O',
+      `${base_path}/mhsendmail`
+    ]);
+  
+    spawn(`wget`, [ 
+      '-c',
+      'https://raw.githubusercontent.com/lucianobritodev/MailHog-Desktop/master/src/app/bin/MailHog_linux_amd64',
+      '-O',
+      `${base_path}/MailHog_linux_amd64`
+    ]);
+  
+    spawnSync('bash', [ '-c', `chmod +x ${base_path}/*` ]);
+  
+  } catch (error) {
+    console.log(error)
+  }
+  
+}
+
 
 function startMailhog() {
   
   if(executando()) {
-    stopMailhog()
+    stopMailhog();
   }
 
-  let _process = spawn(`${__dirname}/bin/MailHog_linux_amd64`, {
-    shell: false,
-    encoding: 'utf8'
-  });
+  let _process = spawn(`${base_path}/MailHog_linux_amd64`);
   
-  lastPidMailhog = _process.pid
+  lastPidMailhog.push(_process.pid);
   
   setTimeout(() => {
     if(executando()) {
@@ -73,19 +144,18 @@ function startMailhog() {
 
 }
 
+
 function stopMailhog() {
 
   if(executando()) {
-    spawn('kill', [ lastPidMailhog ], {
-      shell: false,
-      encoding: 'utf8'
-    })
+    spawn('kill', [ lastPidMailhog.join(' ') ]);
 
-    lastPidMailhog = null;
-    notifier('Aplicação encerrada!')
+    lastPidMailhog = [];
+    notifier('Aplicação encerrada!');
   }
 
 }
+
 
 function openInConsole() {
 
@@ -94,21 +164,21 @@ function openInConsole() {
   }
 
   setTimeout(() => {
-    spawn('xdg-open', [ url ], {
-      shell: false,
-      encoding: 'utf8'
-    });
+    shell.openExternal(url);
   }, 2000)
 
 }
 
+
 function showWindowSendMail() {
 
-  if(lastPidMailhog == null || lastPidMailhog == '') {
-    return notifier('Aplicação não está em execução!');
+  if(!executando()) {
+    return notifier('Servidor SMTP não está em execução!');
   }
 
-  mainWindow.loadFile(resolve(__dirname, '..', 'assets', 'model', 'mail.html'))
+  mainWindow.setSize(800, 670, true);
+  mainWindow.center();
+  mainWindow.loadFile(resolve(__dirname, '..', 'assets', 'model', 'mail.html'));
   mainWindow.show();
   mainWindow.setAlwaysOnTop(true);
   mainWindow.focus();
@@ -116,23 +186,26 @@ function showWindowSendMail() {
 
 }
 
+
 function sendMail(data) {
 
   const email = `From: ${data.name} <${data.from}> \nTo: Test <${data.to}> \nSubject: ${data.subject} \n\n${data.body}`
-
-  fs.writeFileSync(join(__dirname, "../assets/model/mail.txt"), email);
-
-  spawn('bash', [ '-c', `${ __dirname}/bin/mhsendmail ${data.to} < ${join(__dirname, "../assets/model/mail.txt")}` ], {
-    shell: false,
-    encoding: 'utf8'
-  });
+  fs.writeFileSync("/tmp/mail.txt", email);
+  spawn('bash', [ '-c', `${ base_path}/mhsendmail ${data.to} < /tmp/mail.txt` ]);
 
 }
 
-function close() {
+
+function hideWindow() {
+  mainWindow.hide();
+}
+
+
+function quit() {
   mainWindow = null;
   app.exit(0);
 }
+
 
 function notifier(notification) {
   return nodeNotifier.notify({
@@ -144,10 +217,9 @@ function notifier(notification) {
   });
 }
 
+
 function buildBrowserWindow() {
   return new BrowserWindow({
-    width: 800,
-    height: 670,
     show: false,
     frame: true,
     transparent: true,
@@ -162,23 +234,28 @@ function buildBrowserWindow() {
   });
 }
 
+
 function executando() {
-  return !!(lastPidMailhog != null && lastPidMailhog != '');
+  return !!(lastPidMailhog.length != 0 && lastPidMailhog != null);
 }
 
-if (!app.requestSingleInstanceLock())
-  close();
+
+if (app.dock) app.dock.hide();
+if (!app.requestSingleInstanceLock()) quit();
 
 app.disableHardwareAcceleration();
 
 app.whenReady().then(() => {
+
+  downloadMailhog();
+
   mainWindow = buildBrowserWindow();
   mainTray = new Tray(resolve(__dirname, '..', 'assets', 'icons', 'iconTemplate.png'));
   render(mainTray);
 
   mainWindow.on('close', e => {
     e.preventDefault();
-    mainWindow.hide();
+    hideWindow();
   });
 
   ipcMain.on('send-mail', (event, data) => {
@@ -188,6 +265,18 @@ app.whenReady().then(() => {
 
   ipcMain.on('window-hide', event => {
     mainWindow.hide();
+  });
+
+  ipcMain.on('open-author', event => {
+    shell.openExternal('https://github.com/lucianobritodev');
+  });
+
+  ipcMain.on('open-project', event => {
+    shell.openExternal('https://github.com/lucianobritodev/MailHog-Desktop');
+  });
+
+  ipcMain.on('open-mailhog', event => {
+    shell.openExternal('https://github.com/mailhog/MailHog');
   });
 
 });

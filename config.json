@@ -1,0 +1,23 @@
+{
+    "dest": "dist/installers/",
+    "icon": "src/assets/icons/iconTemplate.png",
+    "categories": [
+      "Development",
+      "GNOME",
+      "GTK"
+    ],
+    "options": {
+        "name": "MailHog-Desktop",
+        "description": "Open MailHog from desktop tray menu.",
+        "arch": "amd64",
+        "icon": "src/assets/icons/iconTemplate.png"
+    },
+    "deb": {
+		"depends": [
+            "rm-8.32",
+            "wget-1.21.2",
+            "bash-5.1.16(1)-release",
+            "chmod-8.32"
+		]
+	}
+}

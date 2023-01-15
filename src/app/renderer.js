@@ -1,8 +1,9 @@
 const { ipcRenderer } = require('electron');
 
+
 document.querySelector('#send-email-form')
-  .addEventListener('submit', element => {
-    element.preventDefault();
+  .addEventListener('submit', event => {
+    event.preventDefault();
     dispatcher();
 });
 
@@ -12,6 +13,21 @@ document.querySelector("#cancel")
     console.log('window-hide')
     ipcRenderer.send('window-hide', null);
 });
+
+
+function author() {
+  ipcRenderer.send('open-author', null);
+}
+
+
+function project() {
+  ipcRenderer.send('open-project', null);
+}
+
+
+function mailhog() {
+  ipcRenderer.send('open-mailhog', null);
+}
 
 
 function dispatcher() {

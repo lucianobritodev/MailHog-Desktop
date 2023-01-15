@@ -2,7 +2,9 @@
 
 ## Description
 
-Desktop application to manage fake SMTP Client for receiving Mailhog email as well as fake SMTP client for sending Sendmail email.
+The MailHog-Desktop is a frontend Electron app to [MailHog](https://github.com/mailhog/MailHog) project.
+
+The MailHog project currently has two applications, one to manage a fake SMTP client to receive email called mailhog, and another to send emails called mhsendmail.
 
 **Attention!**
 This application was initially developed for unix like environments, if you want to run it in other environments make sure that all dependencies are satisfied.

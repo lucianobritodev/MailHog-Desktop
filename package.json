@@ -1,12 +1,15 @@
 {
   "name": "mailhog-desktop",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Client desktop for MailHog",
   "main": "src/app/main.js",
   "scripts": {
     "start": "electron .",
     "dev": "nodemon --watch src/app/main.js --exec electron .",
-    "test": ""
+    "clean": "rimraf dist",
+    "bundle:x64": "electron-packager . mailhog-desktop --asar --overwrite --platform=linux --arch=x64 --icon=src/assets/icons/iconTemplate.png --prune=true --out=dist/",
+    "deb:x64": "electron-installer-debian --src dist/mailhog-desktop-linux-x64/ --arch amd64 --config config.json",
+    "build": "npm run clean && npm run bundle:x64 && npm run deb:x64"
   },
   "repository": {
     "type": "git",
@@ -24,7 +27,10 @@
   "license": "MIT",
   "devDependencies": {
     "electron": "^22.0.0",
-    "nodemon": "^2.0.20"
+    "electron-installer-debian": "^3.1.0",
+    "electron-packager": "^17.1.1",
+    "nodemon": "^2.0.20",
+    "rimraf": "^3.0.2"
   },
   "dependencies": {
     "@sentry/electron": "^4.1.2",

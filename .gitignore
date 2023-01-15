@@ -31,7 +31,7 @@ npm/checksums.json
 # Generated API definitions
 electron-api.json
 electron.d.ts
-dist/*
+dist/*-linux-x64
 
 # Spec hash calculation
 spec/.hash
